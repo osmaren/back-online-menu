@@ -1,13 +1,19 @@
 import { Schema, model, Document } from 'mongoose';
 
 interface Category {
-  name: string;
+    parent: string | null;
+    name: string;
 }
 
-interface CategoryDocument extends Category, Document {}
+interface CategoryDocument extends Category, Document { }
 
 const categorySchema = new Schema<CategoryDocument>({
-  name: { type: String, required: true, unique: true },
+    parent: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
+        default: null,
+    },
+    name: { type: String, required: true, unique: true },
 });
 
 const Category = model<CategoryDocument>('Category', categorySchema);
