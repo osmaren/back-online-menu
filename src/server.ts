@@ -1,11 +1,7 @@
-import express from 'express';
 import mongoose from 'mongoose';
-import productRoutes from './prodRoute';
+import app from './app'
+const PORT = process.env.PORT || 3000;
 
-const app = express();
-
-app.use(express.json());
-const port = 3000;
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/mydatabase', {
     useNewUrlParser: true,
@@ -13,13 +9,10 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/mydatabas
 })
     .then(() => {
         console.log('Connected to MongoDB');
-        app.use('/products', productRoutes);
-        app.listen(port, () => {
-            console.log(`Server running on port ${port}`);
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
         });
     })
     .catch(error => {
         console.log('Error connecting to MongoDB', error);
     });
-
-export default app;
